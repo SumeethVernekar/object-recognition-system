@@ -1,0 +1,94 @@
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 360px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+}
+
+.auth-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 6px;
+}
+
+.auth-card h2 {
+  font-family: 'Archivo Narrow', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  margin: 0 0 24px;
+}
+
+.field {
+  display: block;
+  width: 100%;
+  padding: 11px 12px;
+  margin-bottom: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}
+
+.field::placeholder { color: var(--text-muted); }
+
+.field:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: #EDE8DE;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-primary:hover { background: var(--accent-dim); }
+
+.auth-switch {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+}
+
+.error-text {
+  color: var(--accent);
+  font-size: 13px;
+  margin: 4px 0 12px;
+}
+
+@media (max-width: 799px) {
+  .auth-card { padding: 26px 20px; }
+}

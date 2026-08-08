@@ -1,0 +1,192 @@
+.detector-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (min-width: 800px) {
+  .detector-layout {
+    grid-template-columns: minmax(320px, 480px) 1fr;
+    align-items: start;
+  }
+}
+.viewfinder.scanning::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: scan 1.4s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0%   { top: 0%; opacity: 0.9; }
+  50%  { top: 100%; opacity: 0.9; }
+  51%  { opacity: 0; }
+  52%  { top: 0%; opacity: 0.9; }
+  100% { top: 100%; opacity: 0.9; }
+}
+
+.viewfinder-tag.scanning-tag {
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viewfinder.scanning::after { animation: none; opacity: 0.6; top: 50%; }
+}
+.viewfinder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #000;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.viewfinder video,
+.viewfinder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.bracket {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--accent);
+  opacity: 0.85;
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+.bracket.tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+.bracket.tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+.bracket.bl { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+.bracket.br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+.viewfinder.captured .bracket {
+  width: 18px;
+  height: 18px;
+  border-color: var(--success);
+}
+
+.viewfinder-tag {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  background: rgba(0,0,0,0.55);
+  padding: 3px 10px;
+  border-radius: var(--radius);
+  text-transform: uppercase;
+}
+
+.controls-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.btn-capture {
+  flex: 1;
+  min-width: 140px;
+  padding: 12px 16px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: #EDE8DE;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btn-capture:hover { background: var(--accent-dim); }
+.btn-capture:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+
+.btn-secondary {
+  padding: 12px 16px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.btn-secondary:hover { border-color: var(--accent); }
+
+.results-panel h3 {
+  font-family: 'Archivo Narrow', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.result-empty {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.result-item {
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--success);
+  border-radius: var(--radius);
+  margin-bottom: 8px;
+}
+
+.result-label {
+  font-family: 'Archivo Narrow', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: capitalize;
+}
+
+.result-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--success);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-left: 8px;
+}
+
+.result-desc {
+  display: block;
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.status-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  margin: 10px 0 0;
+}
+
+@media (max-width: 799px) {
+  .detector-layout { padding: 16px; gap: 18px; }
+}
+
+@media (max-width: 480px) {
+  .controls-row { flex-direction: column; }
+  .btn-capture, .btn-secondary { width: 100%; }
+}
