@@ -17,7 +17,10 @@ function App() {
       <header className="app-header">
         <h1>LENS<span>SCAN</span></h1>
         <div className="user-controls">
-          <span>{user?.name}</span>
+          <span className='user'>
+            <span className="user-name">{user?.name}</span>
+            
+          </span>
           <button className="btn-ghost" onClick={handleLogout}>Logout</button>
         </div>
       </header>
