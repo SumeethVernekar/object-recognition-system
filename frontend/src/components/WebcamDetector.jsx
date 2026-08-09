@@ -11,6 +11,7 @@ function WebcamDetector({ token }) {
   const streamRef = useRef(null);
 
   const [facingMode, setFacingMode] = useState('environment'); // back camera by default
+  const [hasMultipleCameras, setHasMultipleCameras] = useState(false);
   const [detections, setDetections] = useState([]);
   const [capturedImage, setCapturedImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -31,6 +32,14 @@ function WebcamDetector({ token }) {
       setError('Camera access denied or unavailable');
     }
   };
+
+  // Detect whether this device actually has more than one camera
+  useEffect(() => {
+    navigator.mediaDevices.enumerateDevices().then(devices => {
+      const cameras = devices.filter(d => d.kind === 'videoinput');
+      setHasMultipleCameras(cameras.length > 1);
+    });
+  }, []);
 
   useEffect(() => {
     if (!capturedImage) startCamera(facingMode);
@@ -109,9 +118,11 @@ function WebcamDetector({ token }) {
         {!capturedImage ? (
           <div className="controls-row">
             <button className="btn-capture" onClick={handleCapture}>Capture Photo</button>
-            <button className="btn-secondary" onClick={handleSwitchCamera}>
-              {facingMode === 'environment' ? 'Front Camera' : 'Back Camera'}
-            </button>
+            {hasMultipleCameras && (
+              <button className="btn-secondary" onClick={handleSwitchCamera}>
+                {facingMode === 'environment' ? 'Front Camera' : 'Back Camera'}
+              </button>
+            )}
             <button className="btn-secondary" onClick={() => fileInputRef.current.click()}>Upload</button>
             <input
               type="file"
