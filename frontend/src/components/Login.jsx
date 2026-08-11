@@ -7,23 +7,28 @@ function Login({ onLogin }) {
   const [isSignup, setIsSignup] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    const endpoint = isSignup ? 'signup' : 'login';
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError('');
+  setIsLoading(true);
 
-    try {
-      const res = await axios.post(`${API_URL}/api/auth/${endpoint}`, form);
-      onLogin(res.data.token, res.data.user);
-    } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong');
-    }
-  };
+  const endpoint = isSignup ? 'signup' : 'login';
+
+  try {
+    const res = await axios.post(`${API_URL}/api/auth/${endpoint}`, form);
+    onLogin(res.data.token, res.data.user);
+  } catch (err) {
+    setError(err.response?.data?.message || 'Something went wrong');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="auth-screen">
@@ -37,7 +42,13 @@ function Login({ onLogin }) {
       <input className="field" name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
       <input className="field" name="password" type="password" placeholder="Password" value={form.password} onChange={handleChange} required />
       {error && <p className="error-text">{error}</p>}
-      <button type="submit" className="btn-primary">{isSignup ? 'Sign Up' : 'Login'}</button>
+      <button
+        type="submit"
+        className="btn-primary"
+        disabled={isLoading}
+      >
+        {isLoading? (isSignup ? 'Creating Account...' : 'Logging in...'): (isSignup ? 'Sign Up' : 'Login')}
+      </button>
     </form>
     <p className="auth-switch">
       {isSignup ? 'Already have an account?' : "Don't have an account?"}{' '}
